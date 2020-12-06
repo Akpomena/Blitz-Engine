@@ -1,0 +1,3 @@
+[submodule "Blitz Engine/vendor/spdlog"]
+	path = Blitz Engine/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git

@@ -7,7 +7,6 @@ namespace BlitzEngine {
 	{
 	public:
 		Application();
-		void init();
 		void run();
 		~Application() {};
 	};

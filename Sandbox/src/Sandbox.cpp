@@ -1,7 +1,6 @@
 #include "application.h"
 #include "EntryPoint.h"
 
-
 class SandboxApp : public BlitzEngine::Application
 {
 public:
