@@ -1,4 +1,4 @@
 #pragma once
 
-#include "Application.h";
-#include "Core.h";
+#include "core/Core.h"
+#include "core/Application.h"

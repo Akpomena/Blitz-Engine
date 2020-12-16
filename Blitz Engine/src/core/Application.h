@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Window.h"
 
 namespace BlitzEngine {
 
@@ -9,6 +10,8 @@ namespace BlitzEngine {
 		Application();
 		void run();
 		~Application() {};
+	private:
+		Window m_Window;
 	};
 
 	Application* createApplication();

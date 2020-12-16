@@ -3,6 +3,7 @@ workspace "BlitzEngine"
     architecture "x64"
     cppdialect "c++17"
     startproject "Sandbox"
+    staticruntime "on"
 
     filter "configurations:Debug"
         defines { "DEBUG" }
@@ -17,8 +18,12 @@ project "Blitz Engine"
     kind "SharedLib" 
     language "C++"
     location "Blitz Engine"
-    objdir "bin-int\\%{prj.name}\\%{cfg.architecture}\\%{cfg.buildcfg}\\"
-    targetdir "bin\\%{prj.name}\\%{cfg.architecture}\\%{cfg.buildcfg}\\"
+    objdir "bin-int/%{prj.name}/%{cfg.architecture}/%{cfg.buildcfg}/"
+    targetdir "bin/%{prj.name}/%{cfg.architecture}/%{cfg.buildcfg}/"
+
+    pchheader "BlitzPch.h"
+    pchsource "Blitz Engine/src/BlitzPch.cpp"
+
     files {
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/src/**.h"
@@ -30,11 +35,12 @@ project "Blitz Engine"
         "xcopy /Y \"..\\bin\\%{prj.name}\\%{cfg.architecture}\\%{cfg.buildcfg}\\%{cfg.targetname}%{cfg.targetextension}\" \"..\\bin\\Sandbox\\%{cfg.architecture}\\%{cfg.buildcfg}\\\""
     }
     includedirs {
-        "%{prj.name}/vendor/spdlog/include/"
+        "%{prj.name}/vendor/spdlog/include/",
+	"%{prj.name}/src"
     }
 
 project "Sandbox"
-    kind "ConsoleApp" 
+    kind "WindowedApp" 
     language "C++"
     location "Sandbox"
     objdir "bin-int/%{prj.name}/%{cfg.architecture}/%{cfg.buildcfg}/"

@@ -1,5 +1,5 @@
-#include "application.h"
-#include "EntryPoint.h"
+#include <BlitzEngine.h>
+#include "core/EntryPoint.h"
 
 class SandboxApp : public BlitzEngine::Application
 {
