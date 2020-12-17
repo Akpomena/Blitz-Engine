@@ -15,22 +15,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
 	createDebugConsole();
 
 	auto app = BlitzEngine::createApplication();
-	
-	MSG msg = {};
-	int check;
-	while (check = GetMessageW(&msg, nullptr, 0, 0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
 
-	if (check == -1)
-		return -1;
-
-	app->run();
+	app->Run();
 	delete app;
 
-	return msg.wParam;
+	return 0;
 }
 
 

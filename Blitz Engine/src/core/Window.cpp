@@ -6,7 +6,7 @@
 namespace BlitzEngine {
 
 	Window::Window(const wchar_t* winName, uint32_t width, uint32_t height) :
-		m_WinName(winName), m_Width(width), m_Height(height)
+		m_WinName(winName), m_Width(width), m_Height(height), m_Hwnd(nullptr)
 	{
 	}
 
@@ -30,6 +30,15 @@ namespace BlitzEngine {
 
 		RegisterClassEx(&wc);
 
+		RECT cw = { 0 };
+		cw.left = 0;
+		cw.right = cw.left + m_Width;
+		cw.top = 0;
+		cw.bottom = cw.top + m_Height;
+
+		//Adjust to ensure client area is same size  as window class was initialized
+		AdjustWindowRectEx(&cw, WS_OVERLAPPEDWINDOW, false, 0);
+
 		m_Hwnd = CreateWindowEx(
 			0,
 			CLASS_NAME,
@@ -37,8 +46,8 @@ namespace BlitzEngine {
 			WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
-			m_Width,
-			m_Height,
+			cw.right - cw.left,
+			cw.bottom - cw.top,
 			nullptr,
 			nullptr,
 			GetModuleHandle(nullptr),
@@ -80,6 +89,11 @@ namespace BlitzEngine {
 
 	LRESULT Window::WindowProcHandle(HWND hwnd, UINT uMsg, WPARAM WParam, LPARAM LParam) noexcept
 	{
+		/*
+		* RETRIVES THE WINDOW FROM USERDATA SET IN THE PREVIOUS WINDOW PROCEDURE AND
+		* FORWARDS THE MESSAGE TO THE CLASS INSTANCE PROCEDURE 
+		*/
+
 		Window* pWindow = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 		return pWindow->HandleEvent(hwnd, uMsg, WParam, LParam);
@@ -90,8 +104,122 @@ namespace BlitzEngine {
 		switch (uMsg)
 		{
 		case WM_CLOSE:
-			PostQuitMessage(0);
+		{
+			WindowClosedEvent e;
+			EventCallback(e);
 			return 0;
+		}
+
+		case WM_SIZE:
+		{
+			UINT width = LOWORD(LParam);
+			UINT height = HIWORD(LParam);
+			bool minimize = WParam == SIZE_MINIMIZED;
+
+			//Update the window member variables
+			m_Width = width;
+			m_Height = height;
+
+			WindowResizedEvent e(width, height, minimize);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_KEYDOWN:
+		{
+			KeyPressedEvent e((int)WParam);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_KEYUP:
+		{
+			KeyReleasedEvent e((int)WParam);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_CHAR:
+		{
+			KeyTypedEvent e((int)WParam);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_MOUSEMOVE:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MouseMovedEvent e(pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_MOUSEWHEEL:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			short delta = GET_WHEEL_DELTA_WPARAM(WParam);
+			MouseScrolledEvent e(delta / 120.0, 0, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_MOUSEHWHEEL:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			short delta = GET_WHEEL_DELTA_WPARAM(WParam);
+			MouseScrolledEvent e(0, delta / 120.0, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_LBUTTONDOWN:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MousePressedEvent e(VK_LBUTTON, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_RBUTTONDOWN:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MousePressedEvent e(VK_RBUTTON, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_MBUTTONDOWN:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MousePressedEvent e(VK_MBUTTON, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_LBUTTONUP:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MouseReleasedEvent e(VK_LBUTTON, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_RBUTTONUP:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MouseReleasedEvent e(VK_RBUTTON, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
+		case WM_MBUTTONUP:
+		{
+			POINTS pt = MAKEPOINTS(LParam);
+			MouseReleasedEvent e(VK_MBUTTON, pt.x, pt.y);
+			EventCallback(e);
+			break;
+		}
+
 		}
 
 		return DefWindowProc(hwnd, uMsg, WParam, LParam);
