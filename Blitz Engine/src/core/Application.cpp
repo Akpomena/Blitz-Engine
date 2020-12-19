@@ -23,6 +23,7 @@ namespace BlitzEngine {
 		{
 
 			m_Window.m_Gfx.ClearScreen(1.0f, 0.0f, 0.0f);
+			m_Window.m_Gfx.DrawTriangle();
 
 			//Check for messages in the message queue
 			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
