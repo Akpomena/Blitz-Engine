@@ -4,7 +4,6 @@
 #include <io.h>
 #include <fcntl.h>
 #include <iostream>
-#include <windows.h>
 
 extern BlitzEngine::Application* BlitzEngine::createApplication();
 
@@ -15,7 +14,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
 	createDebugConsole();
 
 	auto app = BlitzEngine::createApplication();
-
 	app->Run();
 	delete app;
 
@@ -30,3 +28,4 @@ void createDebugConsole()
 	_wfreopen_s(&fp, L"CONOUT$", L"w", stdout);
 	_wfreopen_s(&fp, L"CONIN$", L"r", stdin);
 }
+

@@ -3,14 +3,12 @@
 #include "Logger.h"
 
 namespace BlitzEngine {
-
-#define BIND_FUNC(x) std::bind(&Application::x, this, std::placeholders::_1)
 	
 	Application::Application() :
 		m_Window(L"App Window", 800, 600)
 	{
 		Logger::init();
-		m_Window.SetEventCallback(BIND_FUNC(OnEvent));
+		m_Window.SetEventCallback(BIND_FUNC(Application::OnEvent));
 		m_Window.Init();
 		BLITZ_INFO("Engine Successfully Initialized");
 	}
@@ -23,6 +21,8 @@ namespace BlitzEngine {
 	
 		while (m_IsRunning)
 		{
+
+			m_Window.m_Gfx.ClearScreen(1.0f, 0.0f, 0.0f);
 
 			//Check for messages in the message queue
 			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -37,7 +37,7 @@ namespace BlitzEngine {
 	{
 		EventDispatcher dis(e);
 
-		dis.Dispatch<WindowClosedEvent>(BIND_FUNC(OnWindowClose));
+		dis.Dispatch<WindowClosedEvent>(BIND_FUNC(Application::OnWindowClose));
 		
 	}
 

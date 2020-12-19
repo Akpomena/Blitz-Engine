@@ -54,6 +54,8 @@ namespace BlitzEngine {
 			this
 			);
 
+		if (!m_Gfx.Init(m_Hwnd))
+			BLITZ_ERROR("Graphics failed to initialize");
 
 		ShowWindow(m_Hwnd, SW_SHOWDEFAULT);
 

@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #define STRICT
 
