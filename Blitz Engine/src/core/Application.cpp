@@ -1,6 +1,7 @@
 #include "BlitzPch.h"
 #include "application.h"
 #include "Logger.h"
+#include <chrono>
 
 namespace BlitzEngine {
 	
@@ -18,12 +19,18 @@ namespace BlitzEngine {
 		BLITZ_INFO("Engine Running...");
 
 		MSG msg = {};
-	
+		auto start = std::chrono::steady_clock::now();
 		while (m_IsRunning)
 		{
-
+			
 			m_Window.m_Gfx.ClearScreen(1.0f, 0.0f, 0.0f);
-			m_Window.m_Gfx.DrawTriangle();
+
+			auto end = std::chrono::steady_clock::now();
+			std::chrono::duration<double> time = end - start;
+
+			float x = (m_Window.m_MouseXPos / 400.0f) - 1;
+			float y = (-m_Window.m_MouseYPos / 300.0f) + 1;
+			m_Window.m_Gfx.DrawTriangle(x, y, time.count());
 
 			//Check for messages in the message queue
 			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -31,6 +38,9 @@ namespace BlitzEngine {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
+			
+		
+		
 		}
 	}
 

@@ -36,6 +36,7 @@ namespace BlitzEngine {
 		static LRESULT CALLBACK WindowProcHandle(HWND hwnd, UINT uMsg, WPARAM WParam, LPARAM LParam) noexcept;
 		LRESULT HandleEvent(HWND hwnd, UINT uMsg, WPARAM WParam, LPARAM LParam) noexcept;
 		Graphics m_Gfx;
+		float m_MouseXPos, m_MouseYPos;
 	private:
 		const wchar_t* m_WinName;
 		uint32_t m_Width;

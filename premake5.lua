@@ -51,5 +51,6 @@ project "Sandbox"
     }
     links {"Blitz Engine"}
     includedirs {
-        "Blitz Engine/src"
+        "Blitz Engine/src",
+        "Blitz Engine/vendor/spdlog/include"
     }

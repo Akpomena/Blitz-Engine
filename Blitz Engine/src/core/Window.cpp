@@ -6,7 +6,8 @@
 namespace BlitzEngine {
 
 	Window::Window(const wchar_t* winName, uint32_t width, uint32_t height) :
-		m_WinName(winName), m_Width(width), m_Height(height), m_Hwnd(nullptr)
+		m_WinName(winName), m_Width(width), m_Height(height), m_Hwnd(nullptr), 
+		m_MouseXPos(0.0f), m_MouseYPos(0.0f)
 	{
 	}
 
@@ -151,6 +152,8 @@ namespace BlitzEngine {
 		case WM_MOUSEMOVE:
 		{
 			POINTS pt = MAKEPOINTS(LParam);
+			m_MouseXPos = pt.x;
+			m_MouseYPos = pt.y;
 			MouseMovedEvent e(pt.x, pt.y);
 			EventCallback(e);
 			break;
@@ -160,7 +163,7 @@ namespace BlitzEngine {
 		{
 			POINTS pt = MAKEPOINTS(LParam);
 			short delta = GET_WHEEL_DELTA_WPARAM(WParam);
-			MouseScrolledEvent e(delta / 120.0, 0, pt.x, pt.y);
+			MouseScrolledEvent e(delta / 120.0f, 0.0f, pt.x, pt.y);
 			EventCallback(e);
 			break;
 		}
@@ -169,7 +172,7 @@ namespace BlitzEngine {
 		{
 			POINTS pt = MAKEPOINTS(LParam);
 			short delta = GET_WHEEL_DELTA_WPARAM(WParam);
-			MouseScrolledEvent e(0, delta / 120.0, pt.x, pt.y);
+			MouseScrolledEvent e(0.0f, delta / 120.0f, pt.x, pt.y);
 			EventCallback(e);
 			break;
 		}
