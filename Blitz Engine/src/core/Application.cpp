@@ -6,7 +6,7 @@
 namespace BlitzEngine {
 	
 	Application::Application() :
-		m_Window(L"App Window", 800, 600)
+		m_Window(L"Blitz Engine", 800, 600)
 	{
 		Logger::init();
 		m_Window.SetEventCallback(BIND_FUNC(Application::OnEvent));

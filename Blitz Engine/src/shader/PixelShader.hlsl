@@ -1,4 +1,10 @@
-float4 main() : SV_TARGET
+
+cbuffer ConstBuffer
 {
-	return float4(0.0f, 0.0f, 1.0f, 1.0f);
+	float4 colors[6];
+};
+
+float4 main(uint uid: SV_PRIMITIVEID) : SV_TARGET
+{
+	return colors[uid / 2];
 }
