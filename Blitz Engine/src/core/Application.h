@@ -13,6 +13,7 @@ namespace BlitzEngine {
 		~Application() {};
 	private:
 		bool OnWindowClose(WindowClosedEvent e);
+		bool OnWindowResized(WindowResizedEvent& e);
 	private:
 		bool m_IsRunning = true;
 		Window m_Window;

@@ -26,7 +26,8 @@ project "Blitz Engine"
 
     files {
         "%{prj.name}/src/**.cpp",
-        "%{prj.name}/src/**.h"
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.hlsl"
     }
     defines {
         "BLITZENGINE__EXPORTS"

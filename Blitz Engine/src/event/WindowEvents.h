@@ -34,6 +34,9 @@ namespace BlitzEngine {
 		}
 
 		inline bool IsMinimized() const noexcept { return m_IsMinimized; }
+		inline uint32_t GetWidth() const noexcept { return m_Width; }
+		inline uint32_t GetHeight() const noexcept { return m_Height; }
+		inline std::pair<uint32_t, uint32_t> GetSize() const noexcept { return {m_Width, m_Height}; }
 
 		EVENT_TYPE(EventType::WINDOWRESIZED);
 	private:
