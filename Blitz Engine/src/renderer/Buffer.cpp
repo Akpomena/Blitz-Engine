@@ -32,7 +32,7 @@ namespace BlitzEngine {
 
 
 	//Index Buffer
-	IndexBuffer::IndexBuffer(UINT* indices, uint32_t size) noexcept
+	IndexBuffer::IndexBuffer(void* indices, uint32_t size) noexcept
 	{
 		D3D11_BUFFER_DESC indexDesc = { 0 };
 		indexDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -45,13 +45,13 @@ namespace BlitzEngine {
 
 		Renderer::m_Device->CreateBuffer(&indexDesc, &initialData, &m_IndexBuffer);
 
-		m_NumberOfElements = size / sizeof(UINT);
+		m_NumberOfElements = size / sizeof(uint16_t);
 
 	}
 
 	void IndexBuffer::Bind() noexcept
 	{
-		Renderer::m_Context->IASetIndexBuffer(m_IndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0u);
+		Renderer::m_Context->IASetIndexBuffer(m_IndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
 	}
 
 

@@ -7,10 +7,24 @@
 
 namespace BlitzEngine {
 	
-	Application::Application() :
-		m_Window(L"Blitz Engine", 800, 600)
+	bool pause = false;
+
+	bool OnKeyPressed(KeyPressedEvent& e)
 	{
+		if (e.GetKeyCode() == VK_SPACE)
+			pause = !pause;
+
+		return true;
+	}
+
+
+	Application::Application() :
+		m_Window(L"Blitz Engine", 800, 600, true)
+	{
+#ifdef DEBUG
 		Logger::init();
+#endif // DEBUG
+
 		m_Window.SetEventCallback(BIND_FUNC(Application::OnEvent));
 		m_Window.Init();
 
@@ -51,9 +65,15 @@ namespace BlitzEngine {
 			auto end = std::chrono::steady_clock::now();
 			std::chrono::duration<double> time = end - start;
 
+			float update = 0.0f;
 			for (auto& b : boxes)
 			{
-				b->Update(time.count() * 0.001);
+				if (pause)
+					update = 0.0f;
+				else
+					update = time.count() * 0.001;
+
+				b->Update(update);
 				b->Draw();
 			}
 
@@ -75,7 +95,13 @@ namespace BlitzEngine {
 
 		dispatcher.Dispatch<WindowClosedEvent>(BIND_FUNC(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizedEvent>(BIND_FUNC(Application::OnWindowResized));
+		dispatcher.Dispatch<KeyPressedEvent>(OnKeyPressed);
 		
+	}
+
+	Application::~Application()
+	{
+		Renderer::ShutDown();
 	}
 
 	bool Application::OnWindowResized(WindowResizedEvent& e)

@@ -4,7 +4,15 @@ cbuffer ConstBuffer
 	float4 colors[6];
 };
 
-float4 main(uint uid: SV_PRIMITIVEID) : SV_TARGET
+struct INPUT_DATA
 {
-	return colors[uid / 2];
+	float2 TexCoord: TEXCOORD;
+};
+
+SamplerState samp;
+texture2D tex;
+
+float4 main(INPUT_DATA input) : SV_TARGET
+{
+	return tex.Sample(samp, input.TexCoord);
 }

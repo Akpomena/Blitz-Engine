@@ -9,3 +9,6 @@ bin/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+
+# Shader compiled files
+**.cso

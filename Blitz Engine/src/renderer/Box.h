@@ -16,7 +16,7 @@ namespace BlitzEngine {
 		virtual DirectX::XMMATRIX GetTransform() noexcept override;
 		virtual void Update(float dt) noexcept override;
 	private:
-		//DirectX::XMMATRIX m_Transform;
+
 		// positional
 		float r;
 		float roll = 0.0f;

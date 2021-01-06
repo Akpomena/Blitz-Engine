@@ -18,20 +18,43 @@ namespace BlitzEngine {
 		struct Vertex
 		{
 			DirectX::XMFLOAT3 pos;
+			DirectX::XMFLOAT2 tecCoord;
 		};
 
 		Vertex vertices[] = {
-		DirectX::XMFLOAT3(-1.0f,-1.0f,-1.0f), //0
-		DirectX::XMFLOAT3(1.0f,-1.0f,-1.0f), //1
-		DirectX::XMFLOAT3(-1.0f,1.0f,-1.0f), //2
-		DirectX::XMFLOAT3(1.0f,1.0f,-1.0f), //3
-		DirectX::XMFLOAT3(-1.0f,-1.0f,1.0f), //4
-		DirectX::XMFLOAT3(1.0f,-1.0f,1.0f), //5
-		DirectX::XMFLOAT3(-1.0f,1.0f,1.0f), //6 
-		DirectX::XMFLOAT3(1.0f,1.0f,1.0f) //7
+			//Back Face							  
+			DirectX::XMFLOAT3(-1.0f,-1.0f,-1.0f),DirectX::XMFLOAT2(0.0f, 1.0f),  //0
+			DirectX::XMFLOAT3(1.0f,-1.0f,-1.0f), DirectX::XMFLOAT2(1.0f, 1.0f),  //1
+			DirectX::XMFLOAT3(-1.0f,1.0f,-1.0f), DirectX::XMFLOAT2(0.0f, 0.0f),  //2
+			DirectX::XMFLOAT3(1.0f,1.0f,-1.0f),  DirectX::XMFLOAT2(1.0f, 0.0f), //3
+			//Right Face						
+			DirectX::XMFLOAT3(1.0f,-1.0f,-1.0f), DirectX::XMFLOAT2(1.0f, 1.0f), //4
+			DirectX::XMFLOAT3(1.0f,1.0f,-1.0f),  DirectX::XMFLOAT2(1.0f, 0.0f), //5
+			DirectX::XMFLOAT3(1.0f,-1.0f,1.0f),  DirectX::XMFLOAT2(0.0f, 1.0f), //6
+			DirectX::XMFLOAT3(1.0f,1.0f,1.0f),   DirectX::XMFLOAT2(0.0f, 0.0f), //7
+			//Top Face							 
+			DirectX::XMFLOAT3(-1.0f,1.0f,-1.0f), DirectX::XMFLOAT2(0.0f, 0.0f), //8
+			DirectX::XMFLOAT3(1.0f,1.0f,-1.0f),  DirectX::XMFLOAT2(1.0f, 0.0f), //9
+			DirectX::XMFLOAT3(-1.0f,1.0f,1.0f),  DirectX::XMFLOAT2(0.0f, 1.0f), //10
+			DirectX::XMFLOAT3(1.0f,1.0f,1.0f),   DirectX::XMFLOAT2(1.0f, 1.0f),//11
+			//Front Face						
+			DirectX::XMFLOAT3(-1.0f,-1.0f,1.0f), DirectX::XMFLOAT2(0.0f, 1.0f), //12
+			DirectX::XMFLOAT3(1.0f,-1.0f,1.0f),  DirectX::XMFLOAT2(1.0f, 1.0f), //13
+			DirectX::XMFLOAT3(-1.0f,1.0f,1.0f),  DirectX::XMFLOAT2(0.0f, 0.0f), //14
+			DirectX::XMFLOAT3(1.0f,1.0f,1.0f),   DirectX::XMFLOAT2(1.0f, 0.0f), //15
+			//Left Face							 
+			DirectX::XMFLOAT3(-1.0f,-1.0f,-1.0f),DirectX::XMFLOAT2(0.0f, 1.0f), //16
+			DirectX::XMFLOAT3(-1.0f,1.0f,-1.0f), DirectX::XMFLOAT2(0.0f, 0.0f), //17
+			DirectX::XMFLOAT3(-1.0f,-1.0f,1.0f), DirectX::XMFLOAT2(1.0f, 1.0f), //18
+			DirectX::XMFLOAT3(-1.0f,1.0f,1.0f),  DirectX::XMFLOAT2(1.0f, 0.0f), //19
+			//Bottom Face						
+			DirectX::XMFLOAT3(-1.0f,-1.0f,-1.0f),DirectX::XMFLOAT2(0.0f, 1.0f), //20
+			DirectX::XMFLOAT3(1.0f,-1.0f,-1.0f), DirectX::XMFLOAT2(1.0f, 1.0f), //21
+			DirectX::XMFLOAT3(-1.0f,-1.0f,1.0f), DirectX::XMFLOAT2(0.0f, 0.0f), //22
+			DirectX::XMFLOAT3(1.0f,-1.0f,1.0f),  DirectX::XMFLOAT2(1.0f, 0.0f) //23
 		};
 
-		AddBindable(std::make_unique<VertexBuffer>(vertices, sizeof(vertices), 12u));
+		AddBindable(std::make_unique<VertexBuffer>(vertices, sizeof(vertices), 20u));
 
 		auto vs = std::make_unique<VertexShader>(L"../Blitz Engine/VertexShader.cso");
 		auto vsByteCode = vs->GetByteCode();
@@ -39,16 +62,17 @@ namespace BlitzEngine {
 		AddBindable(std::move(vs));
 		AddBindable(std::make_unique<PixelShader>(L"../Blitz Engine/PixelShader.cso"));
 
-		UINT indice[] = {
+		uint16_t indice[] = {
 		0,2,1, 2,3,1,  //Back Face
-		1,3,5, 3,7,5,  //Right Face
-		2,6,3, 3,6,7,  //Top Face
-		4,5,7, 4,7,6,  // Front Face
-		0,4,2, 2,4,6,  // Left Face
-		0,1,4, 1,5,4  // Bottom Face
+		4,5,6, 5,7,6,  //Right Face
+		8,10,9, 9,10,11,  //Top Face
+		12,13,15, 12,15,14,  // Front Face
+		16,18,17, 17,18,19,  // Left Face
+		20,21,22, 21,23,22  // Bottom Face
 		};
 		AddIndexBuffer(std::make_unique<IndexBuffer>(indice, sizeof(indice)));
 
+		AddBindable(std::make_unique<Texture2D>("../Blitz Engine/Assets/Textures/container.jpg"));
 		DirectX::XMVECTOR cb2[] =
 		{
 			{ 1.0f,0.0f,1.0f, 1.0f},
@@ -63,6 +87,7 @@ namespace BlitzEngine {
 		std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
 			{ "POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
+			{ "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0 }
 		};
 		
 		AddBindable(std::make_unique<InputLayout>(ied, vsByteCode));

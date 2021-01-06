@@ -1,6 +1,8 @@
 #include "BlitzPch.h"
 
 #include "Logger.h"
+
+#ifdef DEBUG
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace BlitzEngine {
@@ -18,3 +20,4 @@ namespace BlitzEngine {
 		m_ClientLogger->set_level(spdlog::level::trace);
 	}
 }
+#endif // DEBUG

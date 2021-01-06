@@ -23,7 +23,7 @@ namespace BlitzEngine {
 	class BLITZENGINE_API IndexBuffer : public Bindable
 	{
 	public:
-		IndexBuffer(UINT* indices, uint32_t size) noexcept;
+		IndexBuffer(void* indices, uint32_t size) noexcept;
 		inline const UINT& GetNumberOfElements() const { return m_NumberOfElements; }
 		virtual void Bind() noexcept override;
 	private:

@@ -1,4 +1,7 @@
 #pragma once
+
+// Logger only exists in debug mode
+#ifdef DEBUG
 #include <spdlog/spdlog.h>
 #include <memory>
 #include "core.h"
@@ -18,6 +21,7 @@ namespace BlitzEngine {
 
 }
 
+#endif // DEBUG
 
 #ifdef _DEBUG
 

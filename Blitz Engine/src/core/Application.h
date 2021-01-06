@@ -10,7 +10,7 @@ namespace BlitzEngine {
 		Application();
 		void Run();
 		void OnEvent(Event& e);
-		~Application() {};
+		~Application();
 	private:
 		bool OnWindowClose(WindowClosedEvent e);
 		bool OnWindowResized(WindowResizedEvent& e);

@@ -18,11 +18,11 @@ namespace BlitzEngine {
 	public:
 		static bool m_Initialized;
 		static HWND m_Hwnd;
-		static Microsoft::WRL::ComPtr<IDXGISwapChain> m_SwapChain;
-		static Microsoft::WRL::ComPtr<ID3D11Device> m_Device;
-		static Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_Context;
 		static Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_RenderTargetView;
 		static Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_DepthStencilView;
+		static Microsoft::WRL::ComPtr<IDXGISwapChain> m_SwapChain;
+		static Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_Context;
+		static Microsoft::WRL::ComPtr<ID3D11Device> m_Device;
 	};
 
 }

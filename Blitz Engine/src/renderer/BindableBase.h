@@ -5,3 +5,4 @@
 #include "./Topology.h"
 #include "./InputLayout.h"
 #include "./TransformConstantBuffer.h"
+#include "./Texture2D.h"

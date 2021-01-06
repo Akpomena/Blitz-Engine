@@ -3,16 +3,34 @@
 #include "Window.h"
 #include "Logger.h"
 
+
+#ifdef DEBUG
+void createDebugConsole()
+{
+	FILE* fp;
+	AllocConsole();
+	_wfreopen_s(&fp, L"CONOUT$", L"w", stdout);
+	_wfreopen_s(&fp, L"CONIN$", L"r", stdin);
+}
+
+#endif // DEBUG
+
+
 namespace BlitzEngine {
 
-	Window::Window(const wchar_t* winName, uint32_t width, uint32_t height) :
-		m_WinName(winName), m_Width(width), m_Height(height), m_Hwnd(nullptr), 
-		m_MouseXPos(0.0f), m_MouseYPos(0.0f)
+	Window::Window(const wchar_t* winName, uint32_t width, uint32_t height, bool debugConsole) :
+		m_WinName(winName), m_Width(width), m_Height(height)
 	{
+#ifdef DEBUG
+		if (debugConsole)
+			createDebugConsole();
+#endif // DEBUG
+
 	}
 
 	bool Window::Init()
 	{
+
 		const wchar_t* CLASS_NAME = L"Blitz Engine Window";
 
 		WNDCLASSEX wc = { 0 };
